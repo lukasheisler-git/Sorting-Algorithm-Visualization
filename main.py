@@ -12,6 +12,23 @@ def swap(i,j):
     canvas.coords(rectangles[i],x_00, y_00, x_01, y_11)
     canvas.coords(rectangles[j],x_10, y_10, x_11, y_01)
     
+def comb_sort():
+	global rectangles
+	step = len(rectangles)
+	while (True):
+		swapped = False
+		for i in range(0, len(rectangles) - step):
+			_,_,_,y_11 = canvas.coords(rectangles[i])
+			_,_,_,y_21 = canvas.coords(rectangles[i+step])
+			if(y_11 > y_21):
+				swap(i,i+step)
+				swapped = true
+			root.update()
+		if(step > 1):
+			step//1.3
+		if(swapped == False and step <= 1):
+			break	    
+    
 def quick_sort(left, right):
 	global rectangles
 	_,_,_,y_11 = canvas.coords(rectangles[left])
@@ -96,6 +113,7 @@ algmenu = Menu(menubar)
 menubar.add_cascade(label="Set Algorithm", menu=algmenu)
 algmenu.add_command(label="BubbleSort", command=bubble_sort)
 algmenu.add_command(label="QuickSort", command= lambda:quick_sort(0,264))  
+algmenu.add_command(label="CombSort", command=comb_sort)
 menubar.add_command(label="Shuffle",command=shuffle)
 menubar.add_command(label="Quit!", command=root.quit)  
   
