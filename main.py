@@ -70,23 +70,34 @@ def partition(left,right):
 	
 
 def bubble_sort():
-	global rectangles
+	global rectangles, comparisons,swaps
 	for n in range(len(rectangles),1,-1):
 		for i in range(0,n-1):
 			_,_,_,y11 = canvas.coords(rectangles[i])
 			_,_,_,y21 = canvas.coords(rectangles[i+1])
 			canvas.itemconfig(rectangles[i], fill='blue')
 			canvas.itemconfig(rectangles[i+1], fill='green')
+			#upadte comparisons
+			comparisons = comparisons + 1
+			compVar.set('Number of comparisons: {}'.format(comparisons))
 			if(y11 > y21):
+				swaps = swaps + 1
+				swapVar.set('Number of swaps: {}'.format(swaps))
 				swap(i,i+1)
 			canvas.itemconfig(rectangles[i+1], fill='blue')
 			canvas.itemconfig(rectangles[i], fill='red')
 			sleep(0.0003)	
 			root.update()
+			#root.update_idletasks()
 			
 				
 def shuffle():
-	global rectangles
+	global rectangles, comparisons, swaps
+	comparisons = 0
+	swaps = 0
+	compVar.set('Number of comparisons: {}'.format(comparisons))
+	swaps = 0
+	swapVar.set('Number of swaps: {}'.format(swaps))
 	for i in rectangles:
 		canvas.delete(i)
 	rectangles.clear()
@@ -106,17 +117,32 @@ def set_alg():
 	okAlgButton = Button(algWindow,text="Ok",command=switch_func(algVar))
 	okAlgButton.pack()
   
-#global variables
-rectangles = []
+
   
 root = Tk()  
 root.title("Sorting Algorithm Visualization")  
 root.geometry("800x600")
 
+#global variables
+rectangles = []
+comparisons = 0
+swaps = 0
+compVar = StringVar()
+compVar.set('Number of comparisons: {}'.format(comparisons))
+swapVar = StringVar()
+swapVar.set('Number of swaps: {}'.format(swaps))
 
 #create canvas
 canvas = Canvas(root,width=800, height=530)
 canvas.pack()
+
+#Create widgets to show # of comparisons, # of swaps, # of items
+compLabel = Label(root, textvariable = compVar)
+compLabel.pack(anchor = "s", side = "bottom")
+swapLabel = Label(root, textvariable = swapVar)
+swapLabel.pack(anchor = "s", side = "bottom")
+itemLabel = Label(root, text = 'Number of items: 265')
+itemLabel.pack(anchor = "s", side = "bottom")
 
 # create a toplevel menu  
 menubar = Menu(root)  
