@@ -11,23 +11,37 @@ def swap(i,j):
 
     canvas.coords(rectangles[i],x_00, y_00, x_01, y_11)
     canvas.coords(rectangles[j],x_10, y_10, x_11, y_01)
+
+def get_Gap(gap):
+	gap = (gap * 10) / 13
+	if gap < 1: 
+		return 1
+	return gap
     
 def comb_sort():
 	global rectangles
-	step = len(rectangles)
-	while (True):
+	n = len(rectangles)
+	
+	#Initialize gap
+	gap = n 
+	swapped = True
+	while(gap != 1 or swapped == 1):
+		gap = int(get_Gap(gap))
 		swapped = False
-		for i in range(0, len(rectangles) - step):
-			_,_,_,y_11 = canvas.coords(rectangles[i])
-			_,_,_,y_21 = canvas.coords(rectangles[i+step])
-			if(y_11 > y_21):
-				swap(i,i+step)
-				swapped = true
-			root.update()
-		if(step > 1):
-			step//1.3
-		if(swapped == False and step <= 1):
-			break	    
+		
+		for i in range (0, n - gap):
+			_,_,_,y_1i = canvas.coords(rectangles[i])
+			_,_,_,y_1gap = canvas.coords(rectangles[i + gap])
+			canvas.itemconfig(rectangles[i], fill='blue')
+			canvas.itemconfig(rectangles[i+gap], fill='green')
+			if(y_1i > y_1gap):
+				swap(i,i + gap)
+				root.update()
+				sleep(0.005)
+				swapped=True
+			canvas.itemconfig(rectangles[i+gap], fill='blue')
+			canvas.itemconfig(rectangles[i], fill='red')
+ 
     
 def quick_sort(left, right):
 	global rectangles
