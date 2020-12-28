@@ -31,32 +31,29 @@ def comb_sort():
     
 def quick_sort(left, right):
 	global rectangles
-	_,_,_,y_11 = canvas.coords(rectangles[left])
-	_,_,_,y_21 = canvas.coords(rectangles[right])
-	if(y_11 < y_21):
+	if(left < right):
 		pivot = partition(left, right)
 		quick_sort(left, pivot-1)
 		quick_sort(pivot+1, right)
 
 def partition(left,right):
 	global rectangles
-	i = left
-	j = right-1
+	i = left-1
 	_,_,_,pivot = canvas.coords(rectangles[right])
-	
-	while(i<j):
-		_,_,_,y_1i = canvas.coords(rectangles[i])
-		while(i < right and y_1i < pivot):
-			i=i+1
+	canvas.itemconfig(rectangles[right], fill='green')
+	for j in range(left,right):
 		_,_,_,y_1j = canvas.coords(rectangles[j])
-		while(j > left and y_1j >= pivot):
-			j=j+1
-		if(i < j):
+		if(y_1j < pivot):
+			i = i+1
 			swap(i,j)
-	_,_,_,y_1i = canvas.coords(rectangles[i])
-	if(y_1i > pivot):
-		swap(i,right)
-	return i
+			root.update()
+			sleep(0.005)
+	swap(i+1,right)
+	canvas.itemconfig(rectangles[i+1], fill='blue')
+	root.update()
+	sleep(0.005)
+	return (i+1)
+	
 
 def bubble_sort():
 	global rectangles
