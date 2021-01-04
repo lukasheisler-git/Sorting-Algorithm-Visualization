@@ -33,7 +33,7 @@ def heapify(n, i):
 		largest = right
 	
 	#check if root must be changed
-	if largest != i:
+	if (largest != i):
 		swap(i,largest)
 		heapify(n, largest)
 		
