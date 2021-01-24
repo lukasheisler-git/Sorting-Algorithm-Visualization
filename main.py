@@ -2,7 +2,7 @@ from tkinter import *
 import numpy as np
 from time import sleep
 
-
+#test test
 
 def swap(i,j):
     global rectangles, swaps
